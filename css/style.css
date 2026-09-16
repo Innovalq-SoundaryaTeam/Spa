@@ -408,6 +408,7 @@ section { position: relative; }
 .newsletter form { display: flex; gap: 12px; flex: 1; max-width: 460px; min-width: 280px; }
 .newsletter input {
   flex: 1;
+  min-width: 0;
   padding: 15px 20px;
   border-radius: 100px;
   border: 1px solid rgba(38,38,34,0.15);
@@ -415,6 +416,7 @@ section { position: relative; }
   font-size: 0.92rem;
   background: var(--surface);
 }
+.newsletter .btn-primary { flex-shrink: 0; }
 .newsletter input:focus { outline: 2px solid var(--gold); }
 
 /* ---------- Footer ---------- */
@@ -537,9 +539,10 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .form-msg.error { background: #f8e6e3; color: #a3453b; border: 1px solid rgba(163,69,59,0.25); }
 
 /* ---------- Contact page ---------- */
-.contact-grid { display: grid; grid-template-columns: 1fr 1.2fr; gap: 50px; align-items: start; }
+.contact-grid { display: grid; grid-template-columns: minmax(0,1fr) minmax(0,1.2fr); gap: 50px; align-items: start; }
 .contact-info-card { background: var(--surface); border-radius: var(--radius-md); padding: 26px; box-shadow: var(--shadow-card); border: 1px solid var(--border-soft); margin-bottom: 20px; display: flex; gap: 16px; }
-.contact-info-card .ic { font-size: 1.5rem; color: var(--gold); }
+.contact-info-card .ic { font-size: 1.5rem; color: var(--gold); flex-shrink: 0; }
+.contact-info-card > div:last-child { min-width: 0; }
 .contact-info-card h4 { margin-bottom: 6px; font-size: 1rem; }
 .contact-info-card p { font-size: 0.9rem; color: var(--text-muted); }
 .map-box {
@@ -645,7 +648,7 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 }
 .dash-sidebar .logout-btn:hover { background: rgba(255,255,255,0.16); }
 
-.dash-main { flex: 1; margin-left: 264px; padding: 40px 46px 80px; max-width: 1200px; }
+.dash-main { margin-left: 264px; width: calc(100% - 264px); padding: 40px 46px 80px; max-width: 1200px; }
 .dash-topbar { display: flex; justify-content: space-between; align-items: center; margin-bottom: 40px; flex-wrap: wrap; gap: 16px; }
 .dash-welcome h1 { font-size: 1.9rem; }
 .dash-welcome p { color: var(--text-muted); margin-top: 4px; }
@@ -715,14 +718,14 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .toast.show { opacity: 1; transform: translateY(0); }
 
 /* ---------- Responsive ---------- */
-@media (max-width: 1080px) {
+@media (max-width: 1150px) {
   .grid-4 { grid-template-columns: repeat(2, 1fr); }
   .grid-3 { grid-template-columns: repeat(2, 1fr); }
   .footer-grid { grid-template-columns: 1fr 1fr; }
   .stats-grid { grid-template-columns: repeat(2, 1fr); gap: 40px; }
   .summary-grid { grid-template-columns: repeat(2, 1fr); }
-  .contact-grid { grid-template-columns: 1fr; }
-  .auth-wrap { grid-template-columns: 1fr; }
+  .contact-grid { grid-template-columns: minmax(0,1fr); }
+  .auth-wrap { grid-template-columns: minmax(0,1fr); }
   .auth-visual { display: none; }
 }
 
@@ -732,7 +735,7 @@ textarea.form-control { resize: vertical; min-height: 120px; }
    the general 860px layout breakpoint below, so it switches to the hamburger
    menu earlier, at 1260px, to avoid ever overflowing or wrapping the bar. */
 @media (max-width: 1260px) {
-  .nav-links, .nav-actions .btn-outline-dark, .nav-actions .btn-outline { display: none; }
+  .nav-links, .nav-actions .btn-outline-dark, .nav-actions .btn-outline, .nav-actions .btn-gold { display: none; }
   .nav-toggle { display: flex; }
   .nav-links.mobile-open {
     display: flex; flex-direction: column; position: fixed; top: 0; right: 0; bottom: 0;
@@ -748,15 +751,24 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   .nav-links.mobile-open .mobile-only-link .btn-outline { border-color: var(--text-heading); color: var(--text-heading); }
 }
 
+/* Very narrow phones (down to 320px): the brand, theme/RTL toggles and hamburger
+   button alone still need trimming to avoid clipping off the right edge. */
+@media (max-width: 400px) {
+  .navbar .container { padding: 0 16px; gap: 8px; }
+  .navbar .brand { font-size: 1.15rem; gap: 6px; }
+  .nav-actions { gap: 4px; }
+  .dir-toggle { padding: 0 8px; font-size: 0.66rem; }
+}
+
 @media (max-width: 860px) {
-  .process-grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: 1fr; }
-  .form-row { grid-template-columns: 1fr; }
-  .footer-grid { grid-template-columns: 1fr; }
+  .process-grid, .grid-2, .grid-3, .grid-4 { grid-template-columns: minmax(0,1fr); }
+  .form-row { grid-template-columns: minmax(0,1fr); }
+  .footer-grid { grid-template-columns: minmax(0,1fr); }
   .stats-grid { grid-template-columns: 1fr 1fr; }
   .dash-sidebar { transform: translateX(-100%); transition: transform 0.3s ease; }
   .dash-sidebar.open { transform: translateX(0); }
-  .dash-main { margin-left: 0; padding: 30px 20px 60px; }
-  .summary-grid { grid-template-columns: 1fr; }
+  .dash-main { margin-left: 0; width: 100%; padding: 30px 20px 60px; }
+  .summary-grid { grid-template-columns: minmax(0,1fr); }
   .slot-grid { grid-template-columns: repeat(2, 1fr); }
   .dash-mobile-toggle { display: inline-flex !important; }
 }
@@ -771,6 +783,9 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   .plan-card.highlight { transform: none; }
   .compare-table { font-size: 0.78rem; }
   .newsletter-inner { flex-direction: column; align-items: stretch; }
+  .newsletter form { flex-direction: column; width: 100%; min-width: 0; max-width: 100%; }
+  .newsletter input { width: 100%; min-width: 0; }
+  .newsletter .btn-primary { width: 100%; }
   .slot-grid { grid-template-columns: repeat(2, 1fr); }
 }
 
@@ -915,16 +930,16 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .spotlight-side .btn { margin-top: auto; }
 
 @media (max-width: 1080px) {
-  .hero-split .container { grid-template-columns: 1fr; }
+  .hero-split .container { grid-template-columns: minmax(0,1fr); }
   .hero-split-media { order: -1; }
   .hero-split-media img { height: 360px; }
   .feature-grid { grid-template-columns: repeat(2, 1fr); }
   .gallery-grid { grid-template-columns: repeat(3, 1fr); grid-template-rows: repeat(3, 140px); }
   .gallery-grid a.g-tall { grid-row: span 1; }
-  .plan-spotlight { grid-template-columns: 1fr; }
+  .plan-spotlight { grid-template-columns: minmax(0,1fr); }
 }
 @media (max-width: 640px) {
-  .feature-grid { grid-template-columns: 1fr; }
+  .feature-grid { grid-template-columns: minmax(0,1fr); }
   .gallery-grid { grid-template-columns: repeat(2, 1fr); grid-template-rows: repeat(4, 140px); }
   .floating-card { position: static; margin-top: 14px; display: inline-flex; }
   .hero-split-trust { gap: 18px; }
@@ -1002,13 +1017,13 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .back-link { display: inline-flex; align-items: center; gap: 6px; color: var(--gold); font-weight: 600; font-size: 0.9rem; margin-bottom: 30px; }
 
 @media (max-width: 900px) {
-  .blog-featured { grid-template-columns: 1fr; }
+  .blog-featured { grid-template-columns: minmax(0,1fr); }
   .blog-featured-img { min-height: 240px; }
   .blog-grid { grid-template-columns: repeat(2, 1fr); }
   .article-hero-img { height: 280px; }
 }
 @media (max-width: 600px) {
-  .blog-grid { grid-template-columns: 1fr; }
+  .blog-grid { grid-template-columns: minmax(0,1fr); }
 }
 
 /* ============================================================
