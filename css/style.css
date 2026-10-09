@@ -787,13 +787,19 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   .nav-links, .nav-actions .btn-outline-dark, .nav-actions .btn-outline, .nav-actions .btn-gold { display: none; }
   .nav-toggle { display: flex; }
   .nav-links.mobile-open {
-    display: flex; flex-direction: column; position: fixed; top: 0; right: 0; bottom: 0;
+    display: flex; flex-direction: column; align-items: flex-start; position: fixed; top: 0; right: 0; bottom: 0;
     width: 78%; max-width: 320px; background: var(--surface); padding: 100px 34px 34px;
     box-shadow: -10px 0 40px rgba(0,0,0,0.15); gap: 26px; z-index: 1000; overflow-y: auto;
   }
+  /* The base .nav-links rule centers items for the horizontal desktop bar
+     (align-items: center); in the stacked mobile drawer that center-aligns
+     each link's text instead, so every line starts at a different x and
+     the list reads as ragged rather than a clean menu. flex-start above
+     fixes the links; the Login/Book Now row below opts back into full
+     width + centered text since those are buttons, not list items. */
   .nav-links.mobile-open a { color: var(--text-main); font-size: 1.05rem; }
   .nav-links.mobile-open .mobile-only-link {
-    display: block; margin-top: 12px; padding-top: 26px; border-top: 1px solid var(--border-soft);
+    display: block; align-self: stretch; margin-top: 12px; padding-top: 26px; border-top: 1px solid var(--border-soft);
   }
   .nav-links.mobile-open .mobile-only-link + .mobile-only-link { margin-top: -10px; padding-top: 0; border-top: none; }
   .nav-links.mobile-open .mobile-only-link .btn { width: 100%; text-align: center; font-size: 0.95rem; }
