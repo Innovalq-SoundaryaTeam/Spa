@@ -423,6 +423,9 @@ function updateNavAuthState() {
       link.href = "login.html";
     }
   });
+  document.querySelectorAll(".js-dash-link").forEach(item => {
+    item.style.display = user ? "" : "none";
+  });
 }
 
 /* ============================================================
