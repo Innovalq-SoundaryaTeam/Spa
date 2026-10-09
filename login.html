@@ -54,12 +54,39 @@
             <input type="email" id="loginEmail" class="form-control" required>
           </div>
           <div class="form-group">
-            <label for="loginPassword">Password</label>
+            <div style="display:flex;justify-content:space-between;align-items:baseline;gap:12px;">
+              <label for="loginPassword">Password</label>
+              <a href="#" id="forgotPasswordLink" style="font-size:0.82rem;color:var(--gold);font-weight:600;">Forgot password?</a>
+            </div>
             <input type="password" id="loginPassword" class="form-control" required>
           </div>
           <button type="submit" class="btn btn-primary btn-block">Login to My Account</button>
         </form>
         <p class="auth-foot-link">New here? <a href="#" data-switch="register">Create an account</a></p>
+      </div>
+
+      <!-- FORGOT PASSWORD PANEL -->
+      <div class="auth-panel" id="panel-forgot">
+        <div id="forgotMsg" class="form-msg"></div>
+        <p style="color:var(--text-muted);font-size:0.9rem;margin-bottom:22px;">This is a demo account, so there's no email step — confirm your account email and choose a new password directly.</p>
+        <form id="forgotForm">
+          <div class="form-group">
+            <label for="forgotEmail">Email Address</label>
+            <input type="email" id="forgotEmail" class="form-control" required>
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label for="forgotPassword">New Password</label>
+              <input type="password" id="forgotPassword" class="form-control" required minlength="4">
+            </div>
+            <div class="form-group">
+              <label for="forgotConfirm">Confirm New Password</label>
+              <input type="password" id="forgotConfirm" class="form-control" required minlength="4">
+            </div>
+          </div>
+          <button type="submit" class="btn btn-primary btn-block">Reset Password</button>
+        </form>
+        <p class="auth-foot-link"><a href="#" data-switch="login">Back to Login</a></p>
       </div>
 
       <!-- REGISTER PANEL -->
@@ -118,13 +145,26 @@
 
     const tabs = document.querySelectorAll(".auth-tab");
     const panels = document.querySelectorAll(".auth-panel");
+    const authTabsEl = document.querySelector(".auth-tabs");
+    const demoHintEl = document.querySelector(".demo-hint");
+    const authDividerEl = document.querySelector(".auth-divider");
+    const socialRowEl = document.querySelector(".social-auth-row");
     function switchTo(name) {
       tabs.forEach(t => t.classList.toggle("active", t.dataset.tab === name));
       panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
+      const isForgot = name === "forgot";
+      authTabsEl.style.display = isForgot ? "none" : "";
+      demoHintEl.style.display = isForgot ? "none" : "";
+      authDividerEl.style.display = isForgot ? "none" : "";
+      socialRowEl.style.display = isForgot ? "none" : "";
     }
     tabs.forEach(t => t.addEventListener("click", () => switchTo(t.dataset.tab)));
     document.querySelectorAll("[data-switch]").forEach(a => {
       a.addEventListener("click", (e) => { e.preventDefault(); switchTo(a.dataset.switch); });
+    });
+    document.getElementById("forgotPasswordLink").addEventListener("click", (e) => {
+      e.preventDefault();
+      switchTo("forgot");
     });
 
     // Preserve any deep-link params (#book=, #therapist=, #plan=) through to the
@@ -174,6 +214,30 @@
       const result = registerUser({ name, email, phone, password });
       if (result.ok) {
         window.location.href = "dashboard.html" + params;
+      } else {
+        msg.textContent = result.message;
+        msg.className = "form-msg show error";
+      }
+    });
+
+    document.getElementById("forgotForm").addEventListener("submit", (e) => {
+      e.preventDefault();
+      const email = document.getElementById("forgotEmail").value.trim();
+      const newPassword = document.getElementById("forgotPassword").value;
+      const confirm = document.getElementById("forgotConfirm").value;
+      const msg = document.getElementById("forgotMsg");
+
+      if (newPassword !== confirm) {
+        msg.textContent = "Passwords do not match.";
+        msg.className = "form-msg show error";
+        return;
+      }
+      const result = resetPassword({ email, newPassword });
+      if (result.ok) {
+        msg.textContent = "Password updated — you can log in with your new password now.";
+        msg.className = "form-msg show success";
+        document.getElementById("forgotForm").reset();
+        setTimeout(() => switchTo("login"), 1800);
       } else {
         msg.textContent = result.message;
         msg.className = "form-msg show error";

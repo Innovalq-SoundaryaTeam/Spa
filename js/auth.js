@@ -141,6 +141,20 @@ function loginUser({ email, password }) {
   return { ok: true };
 }
 
+/* ---------- Forgot / reset password ----------
+   No backend, so no email can actually be sent. Rather than faking a
+   "check your email" message that goes nowhere, the demo is upfront about
+   this and lets the visitor set a new password directly once they confirm
+   the account email. */
+function resetPassword({ email, newPassword }) {
+  const users = getUsers();
+  const idx = users.findIndex(u => u.email.toLowerCase() === email.toLowerCase());
+  if (idx === -1) return { ok: false, message: "No account found with that email." };
+  users[idx].password = newPassword;
+  saveUsers(users);
+  return { ok: true };
+}
+
 /* ---------- Social sign-in (demo simulation) ----------
    This is a static demo site with no backend, so there is no real OAuth
    provider to hand off to. To keep the "Continue with Google/Apple"
