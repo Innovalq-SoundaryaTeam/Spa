@@ -202,7 +202,7 @@ function therapistCardHTML(t) {
       </div>
       <div class="card-body">
         <h3>${t.name}</h3>
-        <p style="color:var(--gold);font-size:0.85rem;font-weight:600;margin-top:4px;">${t.title}</p>
+        <p class="therapist-title">${t.title}</p>
         <div class="therapist-exp">${t.experience}+ years experience</div>
         <div class="therapist-specialties">
           ${t.specialties.map(s => `<span class="chip">${s}</span>`).join("")}
