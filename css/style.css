@@ -30,6 +30,10 @@
   --radius-md: 14px;
   --radius-sm: 8px;
 
+  /* Shared height for every header control (theme toggle, RTL toggle, and
+     the Login/Book Now buttons) so they line up as one consistent row. */
+  --nav-ctrl-h: 44px;
+
   /* ---------- Theme-aware roles (flip in dark mode; see [data-theme="dark"]) ----------
      Everything above this line is a fixed brand color (accents, always-dark
      decorative sections like the footer/hero, always-light badges) and does
@@ -233,7 +237,7 @@ section { position: relative; }
 .nav-links a:hover::after, .nav-links a.active::after { width: 100%; }
 .nav-links a.active { color: var(--gold) !important; }
 
-.nav-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; }
+.nav-actions { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
 .nav-actions .btn-outline { color: var(--white); }
 .navbar.scrolled .nav-actions .btn-outline, .navbar.solid .nav-actions .btn-outline {
   border-color: var(--text-heading); color: var(--text-heading);
@@ -241,18 +245,31 @@ section { position: relative; }
 .navbar.scrolled .nav-actions .btn-outline:hover, .navbar.solid .nav-actions .btn-outline:hover {
   background: var(--sage-800); color: var(--ivory);
 }
+/* Login / Book Now share the same height + pill radius as the theme and
+   RTL toggle buttons beside them, so the whole control row lines up. */
+.nav-actions .btn {
+  height: var(--nav-ctrl-h);
+  padding: 0 26px;
+  border-radius: 100px;
+}
 
 .nav-toggle {
   display: none;
   flex-direction: column;
+  align-items: center;
+  justify-content: center;
   gap: 5px;
+  width: var(--nav-ctrl-h);
+  height: var(--nav-ctrl-h);
+  flex-shrink: 0;
   background: none;
   border: none;
+  border-radius: 100px;
   cursor: pointer;
   z-index: 1001;
 }
 .nav-toggle span {
-  width: 26px; height: 2px;
+  width: 24px; height: 2px;
   background: var(--white);
   transition: all 0.3s ease;
 }
@@ -777,7 +794,10 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   .navbar .container { padding: 0 16px; gap: 8px; }
   .navbar .brand { font-size: 1.15rem; gap: 6px; }
   .nav-actions { gap: 4px; }
-  .dir-toggle { padding: 0 8px; font-size: 0.66rem; }
+  /* Icon-only at this width (matches the theme toggle's compact circle);
+     the RTL/LTR label stays available to screen readers via aria-label. */
+  .dir-toggle { width: var(--nav-ctrl-h); min-width: var(--nav-ctrl-h); padding: 0; }
+  .dir-toggle span { display: none; }
 }
 
 @media (max-width: 860px) {
@@ -1063,27 +1083,29 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   display: inline-flex;
   align-items: center;
   justify-content: center;
-  height: 40px;
-  min-width: 40px;
+  gap: 6px;
+  height: var(--nav-ctrl-h);
+  min-width: var(--nav-ctrl-h);
   padding: 0 4px;
   border-radius: 100px;
   border: 1px solid rgba(255, 255, 255, 0.5);
   background: transparent;
   color: var(--white);
   cursor: pointer;
-  font-size: 1.05rem;
   line-height: 1;
   flex-shrink: 0;
   transition: all 0.3s ease;
 }
+.theme-toggle svg, .dir-toggle svg { width: 17px; height: 17px; display: block; flex-shrink: 0; }
 .dir-toggle {
   width: auto;
-  padding: 0 14px;
+  padding: 0 16px 0 14px;
   font-size: 0.72rem;
   font-weight: 700;
   letter-spacing: 0.06em;
   font-family: var(--font-body);
 }
+.dir-toggle span { line-height: 1; }
 .navbar.scrolled .theme-toggle, .navbar.solid .theme-toggle,
 .navbar.scrolled .dir-toggle, .navbar.solid .dir-toggle {
   border-color: var(--border-soft);

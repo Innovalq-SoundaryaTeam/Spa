@@ -41,12 +41,16 @@ document.addEventListener("DOMContentLoaded", () => {
    script in each page's <head> (before first paint, to avoid a flash of
    the wrong theme) — this just wires up the toggle button and keeps it
    in sync with whatever theme is currently active. */
+const ICON_SUN = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" aria-hidden="true"><circle cx="12" cy="12" r="4.2"/><path d="M12 2.5v2.4M12 19.1v2.4M4.2 4.2l1.7 1.7M18.1 18.1l1.7 1.7M2.5 12h2.4M19.1 12h2.4M4.2 19.8l1.7-1.7M18.1 5.9l1.7-1.7"/></svg>';
+const ICON_MOON = '<svg viewBox="0 0 24 24" fill="currentColor" aria-hidden="true"><path d="M20.4 14.7A8.6 8.6 0 1 1 9.3 3.6a0.75 0.75 0 0 1 .9 1 7.1 7.1 0 0 0 9.2 9.2 .75 .75 0 0 1 1 .9Z"/></svg>';
+const ICON_SWAP = '<svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round" aria-hidden="true"><path d="M3 8h12M11 4l4 4-4 4"/><path d="M21 16H9M13 12l-4 4 4 4"/></svg>';
+
 function initThemeToggle() {
   const btn = document.getElementById("themeToggle");
 
   const syncButton = (theme) => {
     if (!btn) return;
-    btn.textContent = theme === "dark" ? "☀️" : "🌙";
+    btn.innerHTML = theme === "dark" ? ICON_SUN : ICON_MOON;
     const label = theme === "dark" ? "Switch to light mode" : "Switch to dark mode";
     btn.setAttribute("aria-label", label);
     btn.title = label;
@@ -74,7 +78,7 @@ function initDirToggle() {
 
   const syncButton = (dir) => {
     if (!btn) return;
-    btn.textContent = dir === "rtl" ? "LTR" : "RTL";
+    btn.innerHTML = ICON_SWAP + "<span>" + (dir === "rtl" ? "LTR" : "RTL") + "</span>";
     const label = dir === "rtl" ? "Switch to left-to-right layout" : "Switch to right-to-left layout";
     btn.setAttribute("aria-label", label);
     btn.title = label;
