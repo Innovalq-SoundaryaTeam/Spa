@@ -152,16 +152,23 @@ section { position: relative; }
   transition: all 0.3s ease;
   white-space: nowrap;
 }
-.btn-primary {
-  background: var(--sage-800);
-  color: var(--ivory);
-}
-.btn-primary:hover { background: var(--sage-900); transform: translateY(-2px); box-shadow: var(--shadow-card); }
-.btn-gold {
+/* Primary CTA: one color, one treatment, everywhere (Book Now, Login to My
+   Account, Send Message, Choose Plan, Confirm Booking, ...). .btn-primary
+   and .btn-gold used to be two different filled colors competing for the
+   same "primary action" role — they're now the same style under both
+   names, so either class produces an identical button. */
+.btn-primary, .btn-gold {
   background: var(--gold);
   color: var(--ivory);
 }
-.btn-gold:hover { background: #b0854a; transform: translateY(-2px); box-shadow: var(--shadow-card); }
+.btn-primary:hover, .btn-gold:hover { background: #b0854a; transform: translateY(-2px); box-shadow: var(--shadow-card); }
+
+/* Secondary CTA: transparent fill + border + pill, one consistent hover
+   (a subtle background tint, no color-invert, no lift — secondary actions
+   stay visually quieter than Primary). Border/text color still has to flip
+   between light and dark depending on what the button sits on top of
+   (a photo-hero vs. a plain page background), but the treatment itself —
+   radius, height, padding, border weight, hover behavior — is identical. */
 .btn-outline {
   background: transparent;
   border-color: rgba(255,255,255,0.6);
@@ -173,7 +180,7 @@ section { position: relative; }
   border-color: var(--text-heading);
   color: var(--text-heading);
 }
-.btn-outline-dark:hover { background: var(--sage-800); color: var(--ivory); }
+.btn-outline-dark:hover { background: var(--sage-100); }
 .btn-block { width: 100%; }
 .btn-sm { padding: 10px 20px; font-size: 0.82rem; }
 .btn-danger { background: #a3453b; color: var(--ivory); }
@@ -243,7 +250,7 @@ section { position: relative; }
   border-color: var(--text-heading); color: var(--text-heading);
 }
 .navbar.scrolled .nav-actions .btn-outline:hover, .navbar.solid .nav-actions .btn-outline:hover {
-  background: var(--sage-800); color: var(--ivory);
+  background: var(--sage-100);
 }
 /* Login / Book Now share the same height + pill radius as the theme and
    RTL toggle buttons beside them, so the whole control row lines up. */
@@ -791,6 +798,7 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   .nav-links.mobile-open .mobile-only-link + .mobile-only-link { margin-top: -10px; padding-top: 0; border-top: none; }
   .nav-links.mobile-open .mobile-only-link .btn { width: 100%; text-align: center; font-size: 0.95rem; }
   .nav-links.mobile-open .mobile-only-link .btn-outline { border-color: var(--text-heading); color: var(--text-heading); }
+  .nav-links.mobile-open .mobile-only-link .btn-outline:hover { background: var(--sage-100); }
 }
 
 /* Very narrow phones (down to 320px): the brand, theme/RTL toggles and hamburger
