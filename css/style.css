@@ -332,6 +332,22 @@ section { position: relative; }
 .card:hover .card-img img { transform: scale(1.08); }
 .card-body { padding: 26px 24px 28px; display: flex; flex-direction: column; flex: 1; }
 .card-body > .btn { margin-top: auto; }
+/* Reserve a consistent title height (~3 lines) so the description paragraph
+   starts at the same vertical position in every card of a row, regardless of
+   how many lines an individual treatment name wraps to. */
+.card-body h3 {
+  min-height: 3.45em;
+  display: -webkit-box;
+  -webkit-box-orient: vertical;
+  -webkit-line-clamp: 3;
+  overflow: hidden;
+}
+.therapist-card .card-body h3 {
+  min-height: 0;
+  display: block;
+  -webkit-line-clamp: unset;
+  overflow: visible;
+}
 .card-tag {
   display: inline-block;
   font-size: 0.7rem;
