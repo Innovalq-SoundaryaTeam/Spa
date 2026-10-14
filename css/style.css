@@ -641,16 +641,6 @@ textarea.form-control { resize: vertical; min-height: 120px; }
 .auth-tab.active { background: var(--sage-800); color: var(--ivory); }
 .auth-panel { display: none; }
 .auth-panel.active { display: block; animation: fadein 0.4s ease; }
-.demo-hint {
-  background: #e7ede7;
-  border-radius: var(--radius-sm);
-  padding: 14px 18px;
-  font-size: 0.82rem;
-  color: #3c4f42;
-  margin-bottom: 24px;
-  border: 1px dashed rgba(47,61,51,0.25);
-}
-.demo-hint b { color: var(--gold); }
 .auth-foot-link { text-align: center; margin-top: 22px; font-size: 0.9rem; color: var(--text-muted); }
 .auth-foot-link a { color: var(--gold); font-weight: 600; }
 

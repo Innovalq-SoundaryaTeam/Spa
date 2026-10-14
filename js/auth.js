@@ -190,4 +190,6 @@ function redirectIfAuthed() {
   if (getCurrentUser()) window.location.href = "dashboard.html" + window.location.hash;
 }
 
-document.addEventListener("DOMContentLoaded", seedDemoAccount);
+// seedDemoAccount() is no longer auto-run: the demo account (and its
+// credentials shown on the login page) has been removed from the live site.
+// Kept above in case sample dashboard data is wanted again later.

@@ -2,22 +2,6 @@
 <html lang="en">
 <head>
 <script>
-/* Auth guard, run synchronously before anything else in <head> so an already
-   signed-in visitor is sent straight to the dashboard before this login/signup
-   form below ever paints, instead of flashing the form first and redirecting
-   a moment later. */
-(function () {
-  try {
-    var email = localStorage.getItem("ssw_session");
-    var users = JSON.parse(localStorage.getItem("ssw_users")) || [];
-    var signedIn = !!email && users.some(function (u) { return u.email === email; });
-    if (signedIn) {
-      window.location.replace("dashboard.html" + window.location.hash);
-    }
-  } catch (e) {}
-})();
-</script>
-<script>
 (function () {
   try {
     if (localStorage.getItem("ssw_theme") === "dark") {
@@ -55,10 +39,6 @@
       <div class="auth-tabs">
         <div class="auth-tab active" data-tab="login">Login</div>
         <div class="auth-tab" data-tab="register">Register</div>
-      </div>
-
-      <div class="demo-hint">
-        <b>Try the demo:</b> email <b>demo@serenityspa.com</b> &middot; password <b>demo123</b>
       </div>
 
       <!-- LOGIN PANEL -->
@@ -136,6 +116,7 @@
         <p class="auth-foot-link">Already a member? <a href="#" data-switch="login">Login here</a></p>
       </div>
 
+      <div id="socialMsg" class="form-msg"></div>
       <div class="auth-divider">or continue with</div>
       <div class="social-auth-row">
         <button type="button" class="btn-social" id="googleSignIn">
@@ -157,12 +138,9 @@
 <script src="js/main.js"></script>
 <script>
   document.addEventListener("DOMContentLoaded", () => {
-    redirectIfAuthed();
-
     const tabs = document.querySelectorAll(".auth-tab");
     const panels = document.querySelectorAll(".auth-panel");
     const authTabsEl = document.querySelector(".auth-tabs");
-    const demoHintEl = document.querySelector(".demo-hint");
     const authDividerEl = document.querySelector(".auth-divider");
     const socialRowEl = document.querySelector(".social-auth-row");
     function switchTo(name) {
@@ -170,7 +148,6 @@
       panels.forEach(p => p.classList.toggle("active", p.id === "panel-" + name));
       const isForgot = name === "forgot";
       authTabsEl.style.display = isForgot ? "none" : "";
-      demoHintEl.style.display = isForgot ? "none" : "";
       authDividerEl.style.display = isForgot ? "none" : "";
       socialRowEl.style.display = isForgot ? "none" : "";
     }
@@ -183,20 +160,17 @@
       switchTo("forgot");
     });
 
-    // Preserve any deep-link params (#book=, #therapist=, #plan=) through to the
-    // dashboard. This is a hash fragment, not a query string, because a query
-    // string gets dropped by static file servers with "clean URLs" (e.g. `serve`)
-    // when they redirect /login.html -> /login — a hash fragment is never sent
-    // to the server, so it always survives.
-    const params = window.location.hash;
-
     document.getElementById("googleSignIn").addEventListener("click", () => {
       socialLogin("google");
-      window.location.href = "dashboard.html" + params;
+      const msg = document.getElementById("socialMsg");
+      msg.textContent = "Signed in with Google.";
+      msg.className = "form-msg show success";
     });
     document.getElementById("appleSignIn").addEventListener("click", () => {
       socialLogin("apple");
-      window.location.href = "dashboard.html" + params;
+      const msg = document.getElementById("socialMsg");
+      msg.textContent = "Signed in with Apple.";
+      msg.className = "form-msg show success";
     });
 
     document.getElementById("loginForm").addEventListener("submit", (e) => {
@@ -206,7 +180,9 @@
       const result = loginUser({ email, password });
       const msg = document.getElementById("loginMsg");
       if (result.ok) {
-        window.location.href = "dashboard.html" + params;
+        msg.textContent = "Logged in successfully.";
+        msg.className = "form-msg show success";
+        document.getElementById("loginForm").reset();
       } else {
         msg.textContent = result.message;
         msg.className = "form-msg show error";
@@ -229,7 +205,9 @@
       }
       const result = registerUser({ name, email, phone, password });
       if (result.ok) {
-        window.location.href = "dashboard.html" + params;
+        msg.textContent = "Account created and logged in successfully.";
+        msg.className = "form-msg show success";
+        document.getElementById("registerForm").reset();
       } else {
         msg.textContent = result.message;
         msg.className = "form-msg show error";
