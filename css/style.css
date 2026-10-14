@@ -336,7 +336,14 @@ section { position: relative; }
 .page-header h1 { color: var(--ivory); }
 .page-header.ph-treatments { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/treatments-header-bg.png"); }
 .page-header.ph-membership { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/membership-header-bg.png"); }
-.page-header.ph-therapists { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/therapists-header-bg.png"); }
+.page-header.ph-therapists {
+  background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/therapists-header-bg.png");
+  /* This photo's subject sits left-of-center with a tall empty background
+     behind her, so the default centered crop sliced through her shoulders
+     and the shirt logo instead of showing her face. Shifting the focal
+     point up keeps her face in frame at every banner width. */
+  background-position: center 15%;
+}
 .page-header.ph-blog { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/blog-header-bg.png"); }
 .page-header.ph-contact { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/contact-header-bg.png"); }
 .page-header .crumb { color: var(--gold-light); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 14px; }
