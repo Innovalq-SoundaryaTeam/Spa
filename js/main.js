@@ -220,7 +220,7 @@ function planCardHTML(p) {
       <h3 class="plan-name">${p.name}</h3>
       <p class="plan-tagline">${p.tagline}</p>
       <div class="plan-price">${formatINR(p.price)}<span>/${p.period}</span></div>
-      <div class="plan-sessions">${p.sessions} sessions / month</div>
+      <div class="plan-sessions">${p.sessions} session${p.sessions === 1 ? "" : "s"} / month</div>
       <ul class="plan-perks">
         ${p.perks.map(perk => `<li>${perk}</li>`).join("")}
       </ul>
@@ -302,7 +302,7 @@ function renderPlanSpotlight() {
         <div class="spotlight-row reveal">
           <div>
             <h4>${p.name}</h4>
-            <span>${p.sessions} sessions / month</span>
+            <span>${p.sessions} session${p.sessions === 1 ? "" : "s"} / month</span>
           </div>
           <div class="spotlight-row-price">
             ${formatINR(p.price)}<span>/${p.period}</span>

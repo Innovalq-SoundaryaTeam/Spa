@@ -273,6 +273,19 @@ const THERAPISTS = [
 
 const MEMBERSHIP_PLANS = [
   {
+    id: "bronze",
+    name: "Bronze Essentials",
+    price: 1499,
+    period: "month",
+    sessions: 1,
+    tagline: "Try wellness, one visit at a time.",
+    perks: [
+      "1 treatment session per month",
+      "5% off all retail products",
+      "Online booking access"
+    ]
+  },
+  {
     id: "silver",
     name: "Silver Wellness",
     price: 2999,
@@ -316,6 +329,22 @@ const MEMBERSHIP_PLANS = [
       "1 guest pass every quarter",
       "Dedicated senior therapist",
       "Signature spa robe & welcome gift"
+    ]
+  },
+  {
+    id: "diamond",
+    name: "Diamond Elite",
+    price: 14999,
+    period: "month",
+    sessions: 10,
+    tagline: "Unlimited-feel luxury for the ultimate wellness lifestyle.",
+    perks: [
+      "10 treatment sessions per month",
+      "25% off all retail products",
+      "Complimentary weekly facial",
+      "2 guest passes every month",
+      "Dedicated senior therapist & concierge booking",
+      "Signature spa robe, welcome gift & annual retreat voucher"
     ]
   }
 ];

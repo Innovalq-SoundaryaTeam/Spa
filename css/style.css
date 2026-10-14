@@ -403,6 +403,11 @@ section { position: relative; }
 .grid-2 { grid-template-columns: repeat(2, 1fr); }
 .grid-3 { grid-template-columns: repeat(3, 1fr); }
 .grid-4 { grid-template-columns: repeat(4, 1fr); }
+/* Membership plan count isn't fixed at 3, so this grid sizes its columns to
+   whatever fits (each at least 280px) instead of a hard column count — a
+   5th plan wraps to a second row that still fills edge-to-edge instead of
+   sitting short next to empty space the way a fixed 3-column grid would. */
+.plans-grid { grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); }
 
 /* ---------- Stats band ---------- */
 .stats-band {
