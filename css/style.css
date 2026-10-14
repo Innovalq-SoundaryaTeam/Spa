@@ -981,6 +981,12 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   padding: 30px;
   display: flex;
   flex-direction: column;
+  /* .spotlight-side stretches to match the taller .spotlight-main card
+     (grid's align-items: stretch), but it only ever holds 2 short rows
+     plus a button — justify-content: space-between spreads that content
+     evenly across the full height instead of leaving one large empty
+     gap sitting just above the button. */
+  justify-content: space-between;
   gap: 18px;
 }
 .spotlight-row {
@@ -1001,7 +1007,6 @@ textarea.form-control { resize: vertical; min-height: 120px; }
   white-space: nowrap;
 }
 .spotlight-row-price span { font-size: 0.8rem; color: var(--text-muted); font-family: var(--font-body); }
-.spotlight-side .btn { margin-top: auto; }
 
 @media (max-width: 1080px) {
   .hero-split .container { grid-template-columns: minmax(0,1fr); }

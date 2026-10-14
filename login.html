@@ -2,6 +2,22 @@
 <html lang="en">
 <head>
 <script>
+/* Auth guard, run synchronously before anything else in <head> so an already
+   signed-in visitor is sent straight to the dashboard before this login/signup
+   form below ever paints, instead of flashing the form first and redirecting
+   a moment later. */
+(function () {
+  try {
+    var email = localStorage.getItem("ssw_session");
+    var users = JSON.parse(localStorage.getItem("ssw_users")) || [];
+    var signedIn = !!email && users.some(function (u) { return u.email === email; });
+    if (signedIn) {
+      window.location.replace("dashboard.html" + window.location.hash);
+    }
+  } catch (e) {}
+})();
+</script>
+<script>
 (function () {
   try {
     if (localStorage.getItem("ssw_theme") === "dark") {

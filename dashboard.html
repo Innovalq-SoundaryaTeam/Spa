@@ -2,6 +2,21 @@
 <html lang="en">
 <head>
 <script>
+/* Auth guard, run synchronously before anything else in <head> so a signed-out
+   visitor is sent to login.html before the dashboard markup below ever paints,
+   instead of flashing the real dashboard first and redirecting a moment later. */
+(function () {
+  try {
+    var email = localStorage.getItem("ssw_session");
+    var users = JSON.parse(localStorage.getItem("ssw_users")) || [];
+    var signedIn = !!email && users.some(function (u) { return u.email === email; });
+    if (!signedIn) {
+      window.location.replace("login.html");
+    }
+  } catch (e) {}
+})();
+</script>
+<script>
 (function () {
   try {
     if (localStorage.getItem("ssw_theme") === "dark") {
