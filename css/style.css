@@ -444,7 +444,14 @@ section { position: relative; }
 }
 
 /* ---------- Newsletter ---------- */
+/* .newsletter keeps a fixed light (blush) background in both themes, so its
+   text must stay fixed-dark too instead of following the theme-aware
+   --text-heading/--text-muted tokens — otherwise dark mode flips them to
+   near-white/light-gray and washes the text out against the still-light
+   background. */
 .newsletter { background: var(--blush); padding: 60px 0; }
+.newsletter h3 { color: var(--sage-900); }
+.newsletter-inner > div p { color: #6b6a63; }
 .newsletter-inner { display: flex; align-items: center; justify-content: space-between; gap: 30px; flex-wrap: wrap; }
 .newsletter form { display: flex; gap: 12px; flex: 1; max-width: 460px; min-width: 280px; }
 .newsletter input {
