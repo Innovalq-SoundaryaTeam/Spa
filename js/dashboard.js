@@ -7,10 +7,30 @@
 
 let CURRENT_USER = null;
 
+// Default identity for visitors who open the dashboard without logging in —
+// the dashboard is a standalone page (no login required to view it), so a
+// guest still gets a working dashboard. Their data is kept in this browser
+// under "guest@local" the same way a signed-in user's data is kept under
+// their own email. Logging in still works and simply switches CURRENT_USER
+// to that account's own data instead.
+function getGuestUser() {
+  try {
+    const saved = JSON.parse(localStorage.getItem("ssw_guest_profile"));
+    if (saved) return saved;
+  } catch (e) {}
+  return {
+    name: "Guest",
+    email: "guest@local",
+    phone: "",
+    joined: new Date().toISOString().slice(0, 10)
+  };
+}
+function saveGuestUser(user) {
+  localStorage.setItem("ssw_guest_profile", JSON.stringify(user));
+}
+
 document.addEventListener("DOMContentLoaded", () => {
-  requireAuth();
-  CURRENT_USER = getCurrentUser();
-  if (!CURRENT_USER) return;
+  CURRENT_USER = getCurrentUser() || getGuestUser();
 
   initSidebarNav();
   initTopbar();
@@ -344,14 +364,21 @@ function initProfileForm() {
   if (!form) return;
   form.addEventListener("submit", (e) => {
     e.preventDefault();
-    const users = getUsers();
-    const idx = users.findIndex(u => u.email === CURRENT_USER.email);
-    if (idx !== -1) {
-      users[idx].name = document.getElementById("profileName").value.trim() || users[idx].name;
-      users[idx].phone = document.getElementById("profilePhone").value.trim();
-      saveUsers(users);
-      CURRENT_USER = users[idx];
+    if (CURRENT_USER.email === "guest@local") {
+      CURRENT_USER.name = document.getElementById("profileName").value.trim() || CURRENT_USER.name;
+      CURRENT_USER.phone = document.getElementById("profilePhone").value.trim();
+      saveGuestUser(CURRENT_USER);
       initTopbar();
+    } else {
+      const users = getUsers();
+      const idx = users.findIndex(u => u.email === CURRENT_USER.email);
+      if (idx !== -1) {
+        users[idx].name = document.getElementById("profileName").value.trim() || users[idx].name;
+        users[idx].phone = document.getElementById("profilePhone").value.trim();
+        saveUsers(users);
+        CURRENT_USER = users[idx];
+        initTopbar();
+      }
     }
     showToast("Profile updated successfully.");
   });
