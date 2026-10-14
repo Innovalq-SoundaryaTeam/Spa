@@ -322,7 +322,10 @@ section { position: relative; }
 .scroll-cue .line { width: 1px; height: 34px; background: rgba(255,255,255,0.5); animation: scrollcue 1.8s infinite; }
 @keyframes scrollcue { 0% { transform: scaleY(0); transform-origin: top;} 50% { transform: scaleY(1); transform-origin: top;} 51% {transform-origin: bottom;} 100% {transform: scaleY(0); transform-origin: bottom;} }
 
-/* Page header (non-home hero banner) */
+/* Page header (non-home hero banner).
+   Each inner page adds a modifier class (.ph-treatments, .ph-contact, etc.)
+   so it gets its own photo instead of every page sharing page-header-bg.png;
+   .page-header on its own keeps that shared image as a fallback. */
 .page-header {
   padding: 190px 0 90px;
   text-align: center;
@@ -331,6 +334,11 @@ section { position: relative; }
     url("../images/site/page-header-bg.png") center/cover no-repeat;
 }
 .page-header h1 { color: var(--ivory); }
+.page-header.ph-treatments { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/treatments-header-bg.png"); }
+.page-header.ph-membership { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/membership-header-bg.png"); }
+.page-header.ph-therapists { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/therapists-header-bg.png"); }
+.page-header.ph-blog { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/blog-header-bg.png"); }
+.page-header.ph-contact { background-image: linear-gradient(180deg, rgba(38,44,38,0.6), rgba(38,44,38,0.78)), url("../images/site/contact-header-bg.png"); }
 .page-header .crumb { color: var(--gold-light); font-size: 0.85rem; letter-spacing: 0.08em; text-transform: uppercase; margin-top: 14px; }
 
 /* ---------- Cards ---------- */
